@@ -1,6 +1,6 @@
 // import c from 'classnames'
 // import { NavLink } from 'react-router-dom'
-// import s from './Welcome1.module.scss'
+import s from './Welcome1.module.scss'
 import p1 from '../assets/images/welcome1.svg'
 
 export const Welcome1: React.FC = () => {
@@ -10,7 +10,7 @@ export const Welcome1: React.FC = () => {
     // </div>
     <div>
       <img src={p1} />
-      <h2>
+      <h2 className={s.h2}>
         会挣钱 <br/>
         还要会省钱
       </h2>

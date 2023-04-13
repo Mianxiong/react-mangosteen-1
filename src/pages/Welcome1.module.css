@@ -13,3 +13,7 @@
 :global(.frank) {
   border: 1px solid red;
 }
+
+.h2 {
+  text-align: center;
+}

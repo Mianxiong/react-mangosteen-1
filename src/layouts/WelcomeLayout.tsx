@@ -3,6 +3,7 @@ import { useLocation, useOutlet } from 'react-router';
 import { animated, useTransition } from '@react-spring/web';
 import logo from '../assets/images/logo.svg'
 import { Link } from "react-router-dom";
+import s from './WelcomeLayout.module.scss'
 // import { Link } from "react-router-dom";
 
 const linkMap = {
@@ -24,12 +25,12 @@ export const WelcomeLayout: React.FC = () => {
     leave: { transform: 'translateX(-100%)' },
     config: { duration: 1000 }
   })
-  return <div>
-    <header>
-      <img src={logo} />
-      <h1>山竹记账</h1>
+  return <div className={s.wrapper}>
+    <header className={s.header}>
+      <img src={logo} className={s.img}/>
+      <h1 className={s.h1}>山竹记账</h1>
     </header>
-    <main>
+    <main className={s.main}>
       {transitions((style, pathname) =>
         <animated.div key={pathname} style={style}>
           {/* <div style={{ textAlign: 'center' }}> */}
@@ -39,9 +40,9 @@ export const WelcomeLayout: React.FC = () => {
         </animated.div>
       )}
     </main>
-    <footer>
-      <Link to={linkMap[location.pathname]}>下一页</Link>
-      <Link to="/welcome/xxx">跳过</Link>
+    <footer className={s.footer}>
+      <Link style={{gridArea: '1/2/2/3'}} to={linkMap[location.pathname]}>下一页</Link>
+      <Link style={{ gridArea: '1/3/2/4' }} to="/welcome/xxx">跳过</Link>
     </footer>
   </div>
 
