@@ -17,7 +17,7 @@ export const WelcomeLayout: React.FC = () => {
   })
   return transitions((style, pathname) => {
     return <animated.div key={pathname} style={style}>
-      <div style={{ textAlign: 'right' }}>
+      <div style={{ textAlign: 'center' }}>
         {/* {不显示最新的outlet，显示缓存的，用map来做缓存} */}
         {map.current[pathname]}
       </div>

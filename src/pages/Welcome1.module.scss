@@ -1,0 +1,15 @@
+.wrapper {
+    border: 1px solid red;
+
+    &:hover {
+        background-color: red;
+    }
+}
+
+.blue{
+    background-color: blue;
+}
+
+:global(.frank) {
+    border: 1px solid red;
+}

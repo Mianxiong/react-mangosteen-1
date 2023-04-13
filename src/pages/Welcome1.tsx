@@ -1,7 +1,10 @@
-import { NavLink } from "react-router-dom"
+import c from 'classnames'
+import s from './Welcome1.module.scss'
 
 export const Welcome1: React.FC = () => {
   return (
-      <div> 1 <NavLink to="/welcome/2" >下一页</NavLink></div>
+    <div className={c([s.wrapper, s.blue, 'hmx'])}>
+      山竹记账
+    </div>
   )
 }
