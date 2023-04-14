@@ -1,12 +1,13 @@
-import { NavLink } from "react-router-dom"
-import * as React from 'react'
+import s from './Welcome.module.scss'
+import p from '../assets/images/welcome3.svg'
 export const Welcome3: React.FC = () => {
     return (
-        // <div>
-        //     <header b-1 b-red h-40px></header>
-        //     <main b-1 b-blue h-100px></main>
-        //     <footer b-1 b-black h-55px></footer>
-        // </div>
-        <div> 3 <NavLink to="/welcome/4" >下一页</NavLink></div>
+        <div className={s.welcome}>
+            <img src={p} className = {s.p3}/>
+            <h2 className={s.h2}>
+                数据可视化<br />
+                收支一目了然
+            </h2>
+        </div>
     )
 }
