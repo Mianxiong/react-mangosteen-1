@@ -5,15 +5,15 @@ import { welcomeRoutes } from "./welcomeRoutes";
 
 export const router = createBrowserRouter([
     {
+        path: '/home',
+        element: <div>home</div>
+    },
+    {
         path: '/',
         element: <MainLayout />,
         errorElement: <NotFoundPage />,
         children: [
             welcomeRoutes
         ]
-    },
-    {
-        path: "/4",
-        element: <div>4</div>
     }
 ]);
