@@ -3,6 +3,7 @@ import { useLocation, useOutlet, useNavigate } from 'react-router';
 import { animated, useTransition } from '@react-spring/web';
 import logo from '../assets/images/logo.svg'
 import { Link } from "react-router-dom";
+import { useLocalStore } from '../stores/useLocalStore';
 import s from './WelcomeLayout.module.scss'
 import { useSwipe } from "../hooks/useSwipe";
 // import { Link } from "react-router-dom";
@@ -49,8 +50,10 @@ export const WelcomeLayout: React.FC = () => {
       nav(linkMap[location.pathname])
     }
   }, [direction, location.pathname])
+  const { setHasReadWelcomes} = useLocalStore()
   const onSkip = () => {
-    localStorage.setItem('hasReadWelcomes', 'yes')
+    setHasReadWelcomes(true)
+    // localStorage.setItem('hasReadWelcomes', 'yes')
   }
 
   return <div className={s.wrapper}>
