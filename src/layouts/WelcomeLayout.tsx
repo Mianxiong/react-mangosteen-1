@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import s from './WelcomeLayout.module.scss'
 // import { Link } from "react-router-dom";
 
-const linkMap = {
+const linkMap: Record<string, string> = {
   '/welcome/1': '/welcome/2',
   '/welcome/2': '/welcome/3',
   '/welcome/3': '/welcome/4',
@@ -17,7 +17,7 @@ export const WelcomeLayout: React.FC = () => {
   const location = useLocation() // 获取当前地址栏的信息
   const outlet = useOutlet()
   map.current[location.pathname] = outlet // 存对应的outlet
-  const [extraStyle, setExtraStyle] = useState({ position: 'relative' })
+  const [extraStyle, setExtraStyle] = useState<{ position: 'relative' | 'absolute'}>({ position: 'relative' })
 
   // location.pathname  === /welcome/1
   // location.pathname  === /welcome/2
@@ -40,15 +40,18 @@ export const WelcomeLayout: React.FC = () => {
     </header>
     <main className={s.main}>
       {transitions((style, pathname) =>
-        <animated.div key={pathname} style={{ ...style, ...extraStyle }} className={s.item}>
-          <div className={s.current}>
-            {map.current[pathname]}
-          </div>
-          {/* <div style={{ textAlign: 'center' }}> */}
-          {/* {不显示最新的outlet，显示缓存的，用map来做缓存} */}
-          
-          {/* </div> */}
-        </animated.div>
+      <div style={extraStyle} className={s.box}>
+          <animated.div key={pathname} style={style} className={s.item}>
+            <div className={s.current}>
+              {map.current[pathname]}
+            </div>
+            {/* <div style={{ textAlign: 'center' }}> */}
+            {/* {不显示最新的outlet，显示缓存的，用map来做缓存} */}
+
+            {/* </div> */}
+          </animated.div>
+      </div>
+        
       )}
     </main>
     <footer className={s.footer}>
