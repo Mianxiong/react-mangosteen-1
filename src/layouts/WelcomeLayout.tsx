@@ -1,9 +1,10 @@
-import { ReactNode, useRef, useState } from "react"
-import { useLocation, useOutlet } from 'react-router';
+import { ReactNode, useEffect, useRef, useState } from "react"
+import { useLocation, useOutlet, useNavigate } from 'react-router';
 import { animated, useTransition } from '@react-spring/web';
 import logo from '../assets/images/logo.svg'
 import { Link } from "react-router-dom";
 import s from './WelcomeLayout.module.scss'
+import { useSwipe } from "../hooks/useSwipe";
 // import { Link } from "react-router-dom";
 
 const linkMap: Record<string, string> = {
@@ -13,11 +14,12 @@ const linkMap: Record<string, string> = {
   '/welcome/4': '/welcome/xxx'
 }
 export const WelcomeLayout: React.FC = () => {
+  const animating = useRef(false)
   const map = useRef<Record<string, ReactNode>>({}) // useRef不会刷新
   const location = useLocation() // 获取当前地址栏的信息
   const outlet = useOutlet()
   map.current[location.pathname] = outlet // 存对应的outlet
-  const [extraStyle, setExtraStyle] = useState<{ position: 'relative' | 'absolute'}>({ position: 'relative' })
+  const [extraStyle, setExtraStyle] = useState<{ position: 'relative' | 'absolute' }>({ position: 'relative' })
 
   // location.pathname  === /welcome/1
   // location.pathname  === /welcome/2
@@ -30,28 +32,40 @@ export const WelcomeLayout: React.FC = () => {
       setExtraStyle({ position: 'absolute' })
     },
     onRest: () => {
+      animating.current = false
       setExtraStyle({ position: 'relative' })
     }
   })
+  const main = useRef<HTMLElement>(null)
+  useSwipe(main)
+  const { direction } = useSwipe(main, { onTouchStart: e => e.preventDefault() })
+  const nav = useNavigate()
+  useEffect(() => {
+    if (direction === 'left') {
+      if (animating.current) {
+        return
+      }
+      animating.current = true
+      nav(linkMap[location.pathname])
+    }
+  }, [direction, location.pathname])
+
   return <div className={s.wrapper}>
     <header className={s.header}>
       <img src={logo} className={s.img} />
       <h1 className={s.h1}>山竹记账</h1>
     </header>
-    <main className={s.main}>
+    <main className={s.main} ref={main}>
       {transitions((style, pathname) =>
-      <div style={extraStyle} className={s.box}>
-          <animated.div key={pathname} style={style} className={s.item}>
-            <div className={s.current}>
-              {map.current[pathname]}
-            </div>
-            {/* <div style={{ textAlign: 'center' }}> */}
-            {/* {不显示最新的outlet，显示缓存的，用map来做缓存} */}
+        <animated.div key={pathname} style={{ ...style, ...extraStyle }} className={s.item}>
+          <div className={s.current}>
+            {map.current[pathname]}
+          </div>
+          {/* <div style={{ textAlign: 'center' }}> */}
+          {/* {不显示最新的outlet，显示缓存的，用map来做缓存} */}
 
-            {/* </div> */}
-          </animated.div>
-      </div>
-        
+          {/* </div> */}
+        </animated.div>
       )}
     </main>
     <footer className={s.footer}>
