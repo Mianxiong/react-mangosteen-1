@@ -5,14 +5,29 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import useSWR from "swr";
 import { ajax } from '../lib/ajax';
+import { Navigate } from 'react-router-dom';
 
 export const Home: React.FC = () => {
-    const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
-        return ajax.get(path)
-    })
-    const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, (path) => {
-        return ajax.get(path)
-    })
+    // 单数类型 resource: 数据
+    const { data: meData, error: meError } = useSWR('/api/v1/me', async (path) =>
+        (await ajax.get<Resource<User>>(path)).data.resource
+    )
+    // 复数类型 resources: 数据
+    const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, async (path) =>
+        (await ajax.get<Resources<Item>>(path)).data
+    )
+
+    const isLoadingMe = !meData && !meError
+    const isLoadingItems = meData && !itemsData && !itemsError
+
+    if (isLoadingMe || isLoadingItems) {
+        return <div>加载中......</div>
+    }
+
+    if(itemsData?.resources[0]) {
+        return <Navigate to="/items"/>
+    }
+
     console.log(meData, meError, itemsData, itemsError)
     // mock
     // 1. 使用第三方服务 APIFox

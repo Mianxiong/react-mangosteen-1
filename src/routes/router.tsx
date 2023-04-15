@@ -18,11 +18,13 @@ export const router = createBrowserRouter([
     {
         path: 'welcome',
         element: <WelcomeLayout />,
+        errorElement: <div>加载失败</div>,
         children: [
             { path: '1', element: <Welcome1 /> },
             { path: '2', element: <Welcome2 /> },
             { path: '3', element: <Welcome3 /> },
             { path: '4', element: <Welcome4 /> }
         ]
-    }
+    },
+    { path: '/items', element: <div>items</div>}
 ]);
