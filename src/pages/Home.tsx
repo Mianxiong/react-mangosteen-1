@@ -1,13 +1,15 @@
 import p from '../assets/images/pig.svg'
 import s from './Home.module.scss'
 import add from '../assets/icons/add.svg'
-import { useEffect } from 'react';
-import axios from 'axios';
 import useSWR from "swr";
 import { ajax } from '../lib/ajax';
 import { Navigate } from 'react-router-dom';
-
-export const Home: React.FC = () => {
+import { useTitle } from '../hooks/useTitle';
+interface Props {
+    title?: string
+}
+export const Home: React.FC<Props> = (props) => {
+    useTitle(props.title)
     // 单数类型 resource: 数据
     const { data: meData, error: meError } = useSWR('/api/v1/me', async (path) =>
         (await ajax.get<Resource<User>>(path)).data.resource
