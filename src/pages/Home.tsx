@@ -5,6 +5,8 @@ import useSWR from "swr";
 import { ajax } from '../lib/ajax';
 import { Navigate } from 'react-router-dom';
 import { useTitle } from '../hooks/useTitle';
+import { Loading } from '../components/Loading';
+import { AddItemFloatButton } from '../components/AddItemFloatButton';
 interface Props {
     title?: string
 }
@@ -23,7 +25,7 @@ export const Home: React.FC<Props> = (props) => {
     const isLoadingItems = meData && !itemsData && !itemsError
 
     if (isLoadingMe || isLoadingItems) {
-        return <div>加载中......</div>
+        return <Loading />
     }
 
     if(itemsData?.resources[0]) {
@@ -45,9 +47,7 @@ export const Home: React.FC<Props> = (props) => {
         <div className={s.btnBox}>
             <button className={s.btn}>开始记账</button>
         </div>
-
-        <button className={s.btnBottom}>
-            <img src={add} />
-        </button>
+        <AddItemFloatButton/>
+        
     </div>
 }
