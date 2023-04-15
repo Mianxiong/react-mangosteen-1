@@ -4,13 +4,14 @@ import add from '../assets/icons/add.svg'
 import { useEffect } from 'react';
 import axios from 'axios';
 import useSWR from "swr";
+import { ajax } from '../lib/ajax';
 
 export const Home: React.FC = () => {
     const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
-        return axios.get(`http://121.196.236.94:8080${path}`)
+        return ajax.get(path)
     })
     const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, (path) => {
-        return axios.get(`http://121.196.236.94:8080${path}`)
+        return ajax.get(path)
     })
     console.log(meData, meError, itemsData, itemsError)
     // mock
