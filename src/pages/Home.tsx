@@ -9,9 +9,13 @@ export const Home: React.FC = () => {
     const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
         return axios.get(`http://121.196.236.94:8080${path}`)
     })
-    const {data: itemsData, error: itemsError} = useSWR(meData ? '/api/v1/items' : null, (path) => {
+    const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, (path) => {
         return axios.get(`http://121.196.236.94:8080${path}`)
     })
+    console.log(meData, meError, itemsData, itemsError)
+    // mock
+    // 1. 使用第三方服务 APIFox
+    // 2. 自己写本地 mock 服务器
     // useEffect(() => {
     //     axios.get('http://121.196.236.94:8080/api/v1/me')
     //     .then(() => {}, ()=>{})
