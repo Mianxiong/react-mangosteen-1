@@ -7,14 +7,11 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import React from "react";
 import { TopMenu } from "../components/TopMenu";
+import { menuContext } from "../contexts/menuContext";
 
 const Div = styled.div`
   background: linear-gradient(0deg,rgba(143,76,215,1) 0%,rgba(92,51,190,1) 100%);
 `
-
-export const menuContext = React.createContext({
-  setVisible: (visible: boolean) => { }
-})
 
 export const ItemsPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('thisMonth') //useState类型是TimeRange
