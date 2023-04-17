@@ -34,10 +34,10 @@ export const TopMenu: React.FC<Props> = (props) => {
     opacity: visible ? 1 : 0,
     transform: visible ? 'translateX(0%)' : 'translateX(-100%)'
   })
-  const x = { ...maskStyles, visibility: (maskVisible ? 'visible' : 'hidden') as 'visible' | 'hidden' }
+  const styles = { ...maskStyles, visibility: (maskVisible ? 'visible' : 'hidden') as 'visible' | 'hidden' }
   return (
     <>
-      <animated.div className={s.mask} onClick={onClickMask} style={x}>
+      <animated.div className={s.mask} onClick={onClickMask} style={styles}>
 
       </animated.div>
       <animated.div className={s.wrapper} style={menuStyles}>
