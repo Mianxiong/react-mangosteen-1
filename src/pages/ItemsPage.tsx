@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import React from "react";
 import { TopMenu } from "../components/TopMenu";
-import { menuContext } from "../contexts/menuContext";
+import { useMenuStore } from '../stores/useMenuStore';
 
 const Div = styled.div`
   background: linear-gradient(0deg,rgba(143,76,215,1) 0%,rgba(92,51,190,1) 100%);
@@ -38,10 +38,10 @@ export const ItemsPage: React.FC = () => {
     },
 
   ])
-  const [visible, setVisible] = useState(false)
+  const { visible } = useMenuStore()
   return (
     <div>
-      <menuContext.Provider value={{setVisible}}>
+      {/* <menuContext.Provider value={{setVisible}}> */}
         <Div>
           <TopNav />
           {/* <TimeRangePicker selected={timeRange} onSelected={key => setTimeRange(key)}/> */}
@@ -52,7 +52,7 @@ export const ItemsPage: React.FC = () => {
         <ItemsList items={items} />
         <AddItemFloatButton />
         {visible ? <TopMenu /> : null}
-      </menuContext.Provider>
+      {/* </menuContext.Provider> */}
     </div>
   )
 }
