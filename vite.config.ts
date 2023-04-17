@@ -18,6 +18,6 @@ export default defineConfig(({ command }) => ({
       //   localEnabled: command === 'serve',
       // }
     ),
-    svgsprites()
+    svgsprites({ noOptimizeList: ['chart', 'category', 'export', 'noty'] })
   ]
 }))

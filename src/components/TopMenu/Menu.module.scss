@@ -1,0 +1,11 @@
+.ul {
+    background-color: white;
+    font-size: 20px;
+    padding: 16px 0;
+    li {
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+        margin-bottom: 4px;
+    }
+}
