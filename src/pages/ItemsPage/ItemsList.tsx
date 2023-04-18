@@ -20,8 +20,14 @@ export const ItemsList: React.FC<Props> = () => {
     const onLoadMore = () => {
         setSize(size + 1)
     }
+    const isLoadingInitialData = !data && !error
+    const isLoadingMore = data?.[size - 1] === undefined && !error
+    const isLoading = isLoadingInitialData || isLoadingMore
     if (!data) {
-        return <span>'还没搞定'</span>
+        return <div>
+            {error && <div className={s.info}>数据加载失败，请刷新页面</div>}
+            {isLoading && <div className={s.info}>数据加载中...</div>}
+        </div>
     } else {
         const last = data[data.length - 1]
         const { page, per_page, count } = last.pager
@@ -47,8 +53,8 @@ export const ItemsList: React.FC<Props> = () => {
                     )
                 })}
             </ol>
-
-            {hasMore ? <div className={s.btnBox}><button className={s.btn} onClick={onLoadMore}>加载更多</button></div> : <div className={s.info}>没有更多数据了</div>}
+            {error && <div className={s.info}>数据加载失败，请刷新页面</div>}
+            {!hasMore ? <div className={s.info}>没有更多数据了</div> : isLoading ? <div className={s.info}>数据加载中...</div> : <div className={s.btnBox}><button className={s.btn} onClick={onLoadMore}>加载更多</button></div>}
             {/* <div className={s.btnBox}>
                 {hasMore && <button className={s.btn} onClick={onLoadMore}>加载更多</button>}
             </div> */}
