@@ -1,6 +1,7 @@
 .wrapper {
     background-color: #5f34bf;
-    height: 100vh;
+    // height: 100vh;
+    height: calc(100vh - var(--vh-offset, 0px));
     display: flex;
     flex-direction: column;
     // justify-content: center;
