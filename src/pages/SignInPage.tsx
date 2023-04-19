@@ -8,24 +8,22 @@ import { useSignInStore } from "../stores/useSignInStore";
 import { validate, hasError } from '../lib/validate';
 import { ajax } from '../lib/ajax';
 const rules = [
-    { key: 'email', type: 'required', message: '请输入邮箱地址' },
-    { key: 'email', type: 'pattern', regex: /^.+@.+$/, message: '邮箱地址格式不正确' },
-    { key: 'code', type: 'required', message: '请输入验证码' },
-    { key: 'code', type: 'length', min: 4, max: 6, message: '验证码必须是6个字符' }
+    
 ]
 export const SignInPage: React.FC = () => {
     const { data, setData, error, setError } = useSignInStore()
-    const x = (key?: keyof typeof data) => {
-        const d = key ? { [key]: data[key] } : data
-        const r = key ? rules.filter(rule => rule.key === key) : rules
-        const error = validate(d, r as any)
-        console.log('error', error)
-        setError(error)   
-    }
     const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
-        // x(data)
-        x()
+        const error = validate(data, [
+            { key: 'email', type: 'required', message: '请输入邮箱地址' },
+            { key: 'email', type: 'pattern', regex: /^.+@.+$/, message: '邮箱地址格式不正确' },
+            { key: 'code', type: 'required', message: '请输入验证码' },
+            { key: 'code', type: 'length', min: 4, max: 6, message: '验证码必须是6个字符' }
+        ])
+        setError(error)
+        if (!hasError(error)) {
+            
+        }
     }
     return (
         <div>
