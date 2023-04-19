@@ -7,12 +7,12 @@ import { FormEventHandler } from "react";
 import { useSignInStore } from "../stores/useSignInStore";
 import { validate, hasError } from '../lib/validate';
 import { ajax } from '../lib/ajax';
-const rules = [
-    
-]
+import { useNavigate } from 'react-router';
+
 export const SignInPage: React.FC = () => {
     const { data, setData, error, setError } = useSignInStore()
-    const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    const nav = useNavigate()
+    const onSubmit: FormEventHandler<HTMLFormElement> = async(e) => {
         e.preventDefault()
         const error = validate(data, [
             { key: 'email', type: 'required', message: '请输入邮箱地址' },
@@ -22,7 +22,10 @@ export const SignInPage: React.FC = () => {
         ])
         setError(error)
         if (!hasError(error)) {
-            
+            await ajax.post('/api/v1/session', data)
+            // TODO
+            // 保存 JWT 作为登录凭证
+            nav('/home')
         }
     }
     return (
