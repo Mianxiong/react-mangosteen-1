@@ -45,7 +45,7 @@ export const ItemsPage: React.FC = () => {
           <Icon name="menu"
             onClick={() => { setVisible(!visible) }} className={s.icon}/>} />
         {/* <TimeRangePicker selected={timeRange} onSelected={key => setTimeRange(key)}/> */}
-        <TimeRangePicker selected={timeRange} onSelected={setTimeRange} />
+        <TimeRangePicker selected={timeRange} onSelect={setTimeRange} />
       </Gradient>
 
       <ItemsSummary />
