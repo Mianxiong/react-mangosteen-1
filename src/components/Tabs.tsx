@@ -11,7 +11,7 @@ export const Tabs = <T extends string>(props: Props<T>) => {
     const {tabItems, value, onChange} = props
     return (
         <ol className={s.wrapper}>
-            {tabItems.map(item => <li key={item.key} className={item.key === value ? s.value : ''} onClick={() =>
+            {tabItems.map(item => <li key={item.key} className={item.key === value ? s.selected : ''} onClick={() =>
                 onChange(item.key)
             }>
                 {item.text}

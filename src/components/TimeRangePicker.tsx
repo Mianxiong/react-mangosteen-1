@@ -1,5 +1,4 @@
 import { Tabs } from './Tabs'
-import s from './TimeRangePicker.module.scss'
 export type TimeRange = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom'
 interface Props {
     selected: TimeRange
