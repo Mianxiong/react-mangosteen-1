@@ -54,6 +54,7 @@ export const WelcomeLayout: React.FC = () => {
   const { setHasReadWelcomes} = useLocalStore()
   const onSkip = () => {
     setHasReadWelcomes(true)
+    nav('/welcome/xxx')
     // localStorage.setItem('hasReadWelcomes', 'yes')
   }
 
@@ -77,7 +78,7 @@ export const WelcomeLayout: React.FC = () => {
     </main>
     <footer className={s.footer}>
       <Link style={{ gridArea: '1/2/2/3' }} to={linkMap[location.pathname]}>下一页</Link>
-      <Link style={{ gridArea: '1/3/2/4' }} to="/home" onClick={onSkip}>跳过</Link>
+      <span style={{ gridArea: '1/3/2/4' }} onClick={onSkip}>跳过</span>
     </footer>
   </div>
 
