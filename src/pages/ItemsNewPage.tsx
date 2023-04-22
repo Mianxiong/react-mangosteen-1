@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { Gradient } from "../components/Gradient"
 import { Icon } from "../components/Icon"
 import { Tabs } from "../components/Tabs"
@@ -7,15 +7,16 @@ import s from "./ItemsNewPage.module.scss"
 
 type ItemKind = 'income' | 'expenses'
 export const ItemsNewPage: React.FC = () => {
-    const tabItems: { key: ItemKind, text: string }[] = [{ key: 'expenses', text: '支出' }, { key: 'income', text: '收入' }]
+    const tabItems: { key: ItemKind, text: string, element?: ReactNode }[] = [{ key: 'expenses', text: '支出', element: <div>支出</div> }, { key: 'income', text: '收入', element: <div>收入</div> }]
     const [tabItem, setTabItem] = useState<ItemKind>('expenses')
     return (
         <div>
             <Gradient>
                 <TopNav title="记一笔" icon={<Icon name="back" />} />
-                <Tabs tabItems={tabItems} value={tabItem}
-                    onChange={(item) => { setTabItem(item) }}className={s.tabs} />
             </Gradient>
+            <Tabs tabItems={tabItems} value={tabItem}
+                onChange={(item) => { setTabItem(item) }} className={s.tabs} />
+
         </div>
     )
 }
