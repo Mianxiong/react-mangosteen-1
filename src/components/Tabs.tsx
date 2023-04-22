@@ -1,4 +1,5 @@
 import s from './TimeRangePicker.module.scss'
+import c from 'classnames'
 type Props<T> = {
     tabItems: {
         key: T
@@ -6,11 +7,12 @@ type Props<T> = {
     }[]
     value: T
     onChange: (key: T) => void
+    className: string
 }
 export const Tabs = <T extends string>(props: Props<T>) => {
-    const {tabItems, value, onChange} = props
+    const { tabItems, value, onChange, className } = props
     return (
-        <ol className={s.wrapper}>
+        <ol className={c(className, s.wrapper)}>
             {tabItems.map(item => <li key={item.key} className={item.key === value ? s.selected : ''} onClick={() =>
                 onChange(item.key)
             }>
