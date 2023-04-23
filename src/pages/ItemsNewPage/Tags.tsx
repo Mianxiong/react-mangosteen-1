@@ -13,8 +13,8 @@ export const Tags: React.FC<Props> = (props) => {
                 <li>
                     <span className={s.icon}><Icon name="add" /></span>
                 </li>
-                {tags.map(tag =>
-                    <li className={s.Tags_li}>
+                {tags.map((tag, index) =>
+                    <li key={index} className={s.Tags_li}>
                         <span className={s.top}>😆</span>
                         <span className={s.bottom}>打车</span>
                     </li>
