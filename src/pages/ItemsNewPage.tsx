@@ -17,7 +17,7 @@ export const ItemsNewPage: React.FC = () => {
             </Gradient>
             <Tabs tabItems={tabItems} value={tabItem}
                 onChange={(item) => { setTabItem(item) }} className={s.tabs} />
-            <DateAndAmount className={s.dateAndAmount}/>
+            <DateAndAmount className={s.dateAndAmount} />
         </div>
     )
 }

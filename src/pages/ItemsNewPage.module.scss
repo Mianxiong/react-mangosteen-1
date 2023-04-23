@@ -1,5 +1,6 @@
 .newPageWrapper {
-    height: 100vh;
+    // height: 100vh;
+    height: calc(100vh - var(--vh-offset, 0px));
     display: flex;
     flex-direction: column;
     .gradient {
