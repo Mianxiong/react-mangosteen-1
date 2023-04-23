@@ -1,6 +1,25 @@
+.newPageWrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .gradient {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    .dateAndAmount {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+}
 .tabs {
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     li {
         flex: 1;
         text-align: center;
+        
     }   
 }

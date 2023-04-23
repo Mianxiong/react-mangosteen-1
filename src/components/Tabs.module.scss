@@ -2,6 +2,8 @@
     display: flex;
     color: white;
     padding: 0 0px;
+    flex-grow: 0;
+    flex-shrink: 0;
 
     li {
         padding: 12px 24px;
@@ -26,4 +28,7 @@
 
 .pane {
     text-align: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: auto;
 }

@@ -6,7 +6,7 @@ type Props = {
 export const Tags: React.FC<Props> = (props) => {
     const { kind } = props
     console.log(kind)
-    const tags = Array.from({ length: 21 })
+    const tags = Array.from({ length: 91 })
     return (
         <div>
             <ol className={s.Tags_ol}>
