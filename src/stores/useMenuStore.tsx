@@ -1,14 +1,15 @@
-import { create} from 'zustand'
+import create from 'zustand'
 
-interface Menu{
+interface Menu {
     visible: boolean
     setVisible: (visible: boolean) => void
 }
-export const useMenuStore = create<Menu>((set,get) => (
+
+export const useMenuStore = create<Menu>((set, get) => (
     {
         visible: false,
         setVisible: (visible: boolean) => {
             set({visible})
-        }
+        },
     }
 ))

@@ -1,28 +1,29 @@
 interface Data {
-    [k: string]: JSONValue
+    [k: string | number]: JSONValue
 }
+
 type Rule<T> = {
     key: keyof T
     message: string
 } & (
-        { type: 'required' } |
-        { type: 'chinese' } |
-        { type: 'equalField'; field: keyof T } |
-        { type: 'pattern'; regex: RegExp } |
-        { type: 'notEqual'; value: JSONValue } |
-        { type: 'length'; min?: number; max?: number }
+    { type: 'required' } |
+    { type: 'chinese' } |
+    { type: 'equalField'; field: keyof T } |
+    { type: 'pattern'; regex: RegExp } |
+    { type: 'notEqual'; value: JSONValue } |
+    { type: 'length'; min?: number; max?: number }
     )
 type Rules<T> = Rule<T>[]
 
 type FormError<T> = {
     [k in keyof T]?: string[]
 }
-export type { Rules, Rule, Data, FormError }
+export type {Rules, Rule, Data, FormError}
 
 export const validate = <T extends Data>(formData: T, rules: Rules<T>): FormError<T> => {
     const error: FormError<T> = {}
     rules.forEach((rule) => {
-        const { key, type, message } = rule
+        const {key, type, message} = rule
         const value = formData[key]
         switch (type) {
             case 'required':
@@ -76,6 +77,7 @@ export const validate = <T extends Data>(formData: T, rules: Rules<T>): FormErro
 
 function isEmpty(value: undefined | JSONValue | Data) {
     return value === null || value === undefined || value === ''
+        || (Array.isArray(value) && value.length === 0)
 }
 
 export function hasError(errors?: Record<string, string[]>) {

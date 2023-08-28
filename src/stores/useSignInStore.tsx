@@ -1,5 +1,5 @@
-import { create } from 'zustand'
-import { FormError } from '../lib/validate'
+import create from 'zustand'
+import type {FormError} from '../lib/validate'
 
 type Data = {
     email: string
@@ -12,26 +12,26 @@ interface SignIn {
     setData: (data: Partial<Data>) => void
     setError: (error: Partial<FormError<Data>>) => void
 }
+
 export const useSignInStore = create<SignIn>((set, get) => (
     {
         data: {
-            email: '',
-            code: '',
+            // TODO: 删掉这个邮箱地址
+            email: 'fangyinghang@foxmail.com',
+            code: '123456'
         },
         error: {
             email: [],
             code: []
         },
         setData: (data: Partial<Data>) => {
-            set(state => (
-                {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        ...data
-                    }
+            set(state => ({
+                ...state,
+                data: {
+                    ...state.data,
+                    ...data
                 }
-            ))
+            }))
         },
         setError: (error: Partial<FormError<Data>>) => {
             set(state => ({
@@ -39,8 +39,7 @@ export const useSignInStore = create<SignIn>((set, get) => (
                 error: {
                     ...error
                 }
-            }
-            ))
+            }))
         }
     }
 ))

@@ -1,4 +1,5 @@
-import { useState, useEffect, RefObject, useRef } from 'react';
+import type {RefObject} from 'react'
+import {useEffect, useRef, useState} from 'react'
 
 interface Config {
     onTouchStart?: (e: TouchEvent) => void
@@ -11,7 +12,6 @@ export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) =>
     const x = useRef(-1)
     const y = useRef(-1)
     const onTouchStart = (e: TouchEvent) => {
-        // e.preventDefault()
         config?.onTouchStart?.(e)
         x.current = e.touches[0].clientX
         y.current = e.touches[0].clientY
@@ -22,7 +22,7 @@ export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) =>
         const newY = e.touches[0].clientY
         const dx = newX - x.current
         const dy = newY - y.current
-        if(Math.abs(dx) > Math.abs(dy)) {
+        if (Math.abs(dx) > Math.abs(dy)) {
             if (Math.abs(dx) < 3) {
                 setDirection('')
             } else if (dx > 0) {
@@ -39,7 +39,6 @@ export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) =>
                 setDirection('up')
             }
         }
-        
     }
     const onTouchEnd = (e: TouchEvent) => {
         config?.onTouchEnd?.(e)
@@ -57,5 +56,5 @@ export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) =>
             elementRef.current.removeEventListener('touchend', onTouchEnd)
         }
     }, [])
-    return { direction }
+    return {direction}
 }

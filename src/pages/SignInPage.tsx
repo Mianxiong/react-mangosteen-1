@@ -1,61 +1,71 @@
-import { TopNav } from "../components/TopNav"
-import { Gradient } from '../components/Gradient';
-import { Icon } from "../components/Icon";
-import s from './SignInPage.module.scss';
-import c from 'classnames'
-import { FormEventHandler } from "react";
-import { useSignInStore } from "../stores/useSignInStore";
-import { validate, hasError } from '../lib/validate';
-import { ajax } from '../lib/ajax';
-import { useNavigate } from 'react-router';
+import type {FormEventHandler} from 'react'
+import {useNavigate, useSearchParams} from 'react-router-dom'
+import type {AxiosError} from 'axios'
+import {Gradient} from '../components/Gradient'
+import {Icon} from '../components/Icon'
+import {TopNav} from '../components/TopNav'
+import {useAjax} from '../lib/ajax'
+import type {FormError} from '../lib/validate'
+import {hasError, validate} from '../lib/validate'
+import {useSignInStore} from '../stores/useSignInStore'
+import {Input} from '../components/Input'
 
 export const SignInPage: React.FC = () => {
-    const { data, setData, error, setError } = useSignInStore()
+    const {data, error, setData, setError} = useSignInStore()
     const nav = useNavigate()
-    const onSubmit: FormEventHandler<HTMLFormElement> = async(e) => {
+    const {post} = useAjax({showLoading: true})
+    const onSubmitError = (err: AxiosError<{ errors: FormError<typeof data> }>) => {
+        setError(err.response?.data?.errors ?? {})
+        throw error
+    }
+    const [search] = useSearchParams()
+    const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault()
-        const error = validate(data, [
-            { key: 'email', type: 'required', message: '请输入邮箱地址' },
-            { key: 'email', type: 'pattern', regex: /^.+@.+$/, message: '邮箱地址格式不正确' },
-            { key: 'code', type: 'required', message: '请输入验证码' },
-            { key: 'code', type: 'length', min: 4, max: 6, message: '验证码必须是6个字符' }
+        const newError = validate(data, [
+            {key: 'email', type: 'required', message: '请输入邮箱地址'},
+            {key: 'email', type: 'pattern', regex: /^.+@.+$/, message: '邮箱地址格式不正确'},
+            {key: 'code', type: 'required', message: '请输入验证码'},
+            {key: 'code', type: 'length', min: 6, max: 6, message: '验证码必须是6个字符'},
         ])
-        setError(error)
-        if (!hasError(error)) {
-            await ajax.post('/api/v1/session', data)
-            // TODO
-            // 保存 JWT 作为登录凭证
-            nav('/home')
+        setError(newError)
+        if (!hasError(newError)) {
+            const response = await post<{ jwt: string }>('/api/v1/session', data)
+                .catch(onSubmitError)
+            const jwt = response.data.jwt
+            localStorage.setItem('jwt', jwt)
+            const from = search.get('from') || '/items'
+            nav(from)
         }
+    }
+    const sendSmsCode = async () => {
+        const newError = validate({email: data.email}, [
+            {key: 'email', type: 'pattern', regex: /^.+@.+$/, message: '邮箱地址格式不正确'}
+        ])
+        setError(newError)
+        if (hasError(newError)) { throw new Error('表单出错') }
+        const response = await post('/api/v1/validation_codes', {
+            email: data.email
+        })
+        return response
     }
     return (
         <div>
             <Gradient>
-                <TopNav title="登录" icon={
-                    <Icon name="back" />
-                } />
+                <TopNav title="登录" icon={<Icon name="back"/>}/>
             </Gradient>
-            <div className={s.top}>
-                <Icon name="logo" className={s.logo} />
-                <h1>山竹记账</h1>
+            <div text-center pt-40px pb-16px>
+                <Icon name="logo" className='w-64px h-68px'/>
+                <h1 text-32px text="#7878FF" font-bold>山竹记账</h1>
             </div>
-            <form className={s.form} onSubmit={onSubmit}>
-                {/* <div style={{ border: '1px solid red' }}>{JSON.stringify(data)}</div> */}
-                <div>
-                    <span className={s.label}>邮箱地址{error.email?.[0] && <span style={{ color: 'red' }}>{error.email[0]}</span>}</span>
-                    <input type="text" placeholder='请输入邮箱，然后点击发送验证码' className={s.input} value={data.email} onChange={e => setData({ email: e.target.value })} />
-                    {/* onBlur={() => x('email')} */}
-                </div>
-                <div>
-                    <span className={s.label}>验证码{error.code?.[0] && <span style={{ color: 'red' }}>{error.code[0]}</span>}</span>
-                    <div className={s.verification}>
-                        <input type="text" placeholder='六位数字' className={c(s.input, s.inputVerification)} value={data.code} onChange={e => setData({ code: e.target.value })} />
-                        {/* onBlur={() => x('code')} */}
-                        <button className={c(s.btn, s.btn_ml)}>发送验证码</button>
-                    </div>
-                </div>
-                <div>
-                    <button type="submit" className={s.btn}>登录</button>
+            <form j-form onSubmit={onSubmit}>
+                <Input label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
+                       value={data.email} onChange={email => setData({email})}
+                       error={error.email?.[0]}/>
+                <Input label='验证码' type="sms_code" placeholder='六位数字' value={data.code}
+                       onChange={value => setData({code: value})}
+                       error={error.code?.[0]} request={sendSmsCode}/>
+                <div mt-100px>
+                    <button j-btn type="submit">登录</button>
                 </div>
             </form>
         </div>

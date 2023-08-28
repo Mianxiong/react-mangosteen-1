@@ -1,26 +1,7 @@
-.newPageWrapper {
-    // height: 100vh;
-    height: calc(100vh - var(--vh-offset, 0px));
-    display: flex;
-    flex-direction: column;
-    .gradient {
-        flex-grow: 0;
-        flex-shrink: 0;
+.wrapper {
+  :global {
+    .itemsNewPage-menu-item {
+      flex: 1
     }
-    .dateAndAmount {
-        flex-grow: 0;
-        flex-shrink: 0;
-    }
-}
-.tabs {
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    li {
-        flex: 1;
-        text-align: center;
-        
-    }   
+  }
 }
