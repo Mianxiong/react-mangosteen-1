@@ -7,7 +7,7 @@ export const Welcome4: React.FC = () => {
     const nav = useNavigate()
     const onSkip = () => {
         setHasReadWelcomes(true)
-        nav('/home')
+        nav('/items')
     }
     return (
         <div text-center>
